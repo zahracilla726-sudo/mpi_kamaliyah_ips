@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelajah Potensi Bencana Alam - Media Pembelajaran IPS Kelas 7</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Inter for child-friendly typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        space: {
+                            dark: '#0B0D1B',
+                            card: '#161936',
+                            accent: '#3B82F6',
+                            purple: '#8B5CF6',
+                            gold: '#F59E0B',
+                            pink: '#EC4899',
+                            cyan: '#06B6D4'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'orbit': 'orbit 12s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-gentle': 'bounceGentle 2s infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(2deg)' }
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0D1B;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, .font-display {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0D1B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B5CF6;
+        }
+        .star-bg {
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ffd700, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 230px 190px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 300px 300px;
+        }
+        .glass-card {
+            background: rgba(22, 25, 54, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+        }
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card-hover:hover {
+            transform: translateY(-6px);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.4);
+        }
+        .drag-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        .drop-target.hovered {
+            border-color: #F59E0B !important;
+            background-color: rgba(245, 158, 11, 0.15) !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col star-bg">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-indigo-500/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="relative w-12 h-12 bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-400 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-slow">
+                        <i class="fa-solid font-bold fa-earth-asia text-2xl text-white"></i>
+                        <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-amber-500"></span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-purple-300 to-cyan-300">GEO-EXPLORER</span>
+                        <p class="text-xs text-indigo-300 font-medium hidden sm:block">IPS Kelas 7 Fase D • Oleh: Kamaliyah</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-amber-400 bg-indigo-900/60 shadow-inner">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </button>
+                    <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-indigo-300 hover:text-white hover:bg-indigo-800/40">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>Tujuan</span>
+                    </button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-indigo-300 hover:text-white hover:bg-indigo-800/40">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <span>Materi</span>
+                    </button>
+                    <button onclick="switchTab('kuis')" id="nav-kuis" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-indigo-300 hover:text-white hover:bg-indigo-800/40">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>Kuis</span>
+                    </button>
+                    <button onclick="switchTab('dragdrop')" id="nav-dragdrop" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-indigo-300 hover:text-white hover:bg-indigo-800/40">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                        <span>Drag & Drop</span>
+                    </button>
+                    <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-all duration-200 flex items-center space-x-2 text-indigo-300 hover:text-white hover:bg-indigo-800/40">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                        <span>Tentang</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-indigo-300 hover:text-white focus:outline-none p-2 rounded-lg bg-indigo-950/80 border border-indigo-700/50">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-indigo-800/50 px-4 pt-3 pb-6 space-y-2">
+            <button onclick="switchTab('home')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-amber-300 bg-indigo-900/50 flex items-center space-x-3">
+                <i class="fa-solid fa-house w-6 text-center text-amber-400"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="switchTab('tujuan')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-indigo-200 hover:bg-indigo-800/30 flex items-center space-x-3">
+                <i class="fa-solid fa-bullseye w-6 text-center text-purple-400"></i>
+                <span>Tujuan Pembelajaran</span>
+            </button>
+            <button onclick="switchTab('materi')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-indigo-200 hover:bg-indigo-800/30 flex items-center space-x-3">
+                <i class="fa-solid fa-book-open-reader w-6 text-center text-cyan-400"></i>
+                <span>Materi Bencana</span>
+            </button>
+            <button onclick="switchTab('kuis')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-indigo-200 hover:bg-indigo-800/30 flex items-center space-x-3">
+                <i class="fa-solid fa-gamepad w-6 text-center text-pink-400"></i>
+                <span>Kuis Interaktif</span>
+            </button>
+            <button onclick="switchTab('dragdrop')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-indigo-200 hover:bg-indigo-800/30 flex items-center space-x-3">
+                <i class="fa-solid fa-puzzle-piece w-6 text-center text-emerald-400"></i>
+                <span>Drag and Drop</span>
+            </button>
+            <button onclick="switchTab('tentang')" class="w-full text-left px-4 py-3 rounded-xl font-display font-medium text-indigo-200 hover:bg-indigo-800/30 flex items-center space-x-3">
+                <i class="fa-solid fa-user-astronaut w-6 text-center text-amber-400"></i>
+                <span>Tentang Pengembang</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER (SPA TAB PANELS) -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <section id="tab-home" class="tab-content block space-y-12">
+            <!-- Hero Banner -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden border border-indigo-500/40 shadow-2xl">
+                <!-- Background decorative planets -->
+                <div class="absolute -right-12 -top-12 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid md:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="md:col-span-7 space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-indigo-900/80 border border-amber-400/30 text-amber-300 text-xs sm:text-sm font-semibold">
+                            <i class="fa-solid fa-meteor text-amber-400"></i>
+                            <span>Media Pembelajaran IPS Kelas 7 • Fase D</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight tracking-wide">
+                            Jelajah Potensi <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-pink-400 to-purple-400">Bencana Alam Indonesia</span> 🌋🌊
+                        </h1>
+                        <p class="text-base sm:text-lg text-indigo-200 leading-relaxed">
+                            Halo Kapten Muda! Selamat datang di wahana penjelajahan bumi. Indonesia terletak di antara tiga lempeng tektonik utama dunia. Yuk, kita pelajari potensi bencana alam, cara kerja bumi, dan langkah mitigasi bencana secara seru dan menyenangkan!
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <button onclick="switchTab('materi')" class="px-7 py-3.5 rounded-2xl font-display font-bold text-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 transition-all transform hover:scale-105 flex items-center space-x-3">
+                                <span>Mulai Misi Belajar</span>
+                                <i class="fa-solid fa-rocket"></i>
+                            </button>
+                            <button onclick="switchTab('kuis')" class="px-7 py-3.5 rounded-2xl font-display font-bold text-lg glass-card hover:bg-indigo-800/50 text-indigo-200 hover:text-white border border-indigo-400/30 transition-all flex items-center space-x-3">
+                                <span>Uji Kemampuan</span>
+                                <i class="fa-solid fa-trophy text-amber-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Mascot Illustration -->
+                    <div class="md:col-span-5 flex justify-center relative">
+                        <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+                            <!-- Orbit Ring -->
+                            <div class="absolute w-full h-full border-2 border-dashed border-indigo-400/30 rounded-full animate-spin" style="animation-duration: 25s;"></div>
+                            
+                            <!-- Mascot Earth Planet -->
+                            <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-full bg-gradient-to-br from-blue-500 via-teal-400 to-emerald-500 flex items-center justify-center shadow-2xl shadow-cyan-500/30 animate-float relative border-4 border-cyan-300/40">
+                                <!-- Mascot Face -->
+                                <div class="text-center">
+                                    <div class="flex justify-center space-x-6 mb-2">
+                                        <div class="w-4 h-6 bg-slate-900 rounded-full"></div>
+                                        <div class="w-4 h-6 bg-slate-900 rounded-full"></div>
+                                    </div>
+                                    <div class="w-10 h-5 border-b-4 border-slate-900 rounded-full mx-auto"></div>
+                                    <span class="inline-block mt-3 px-3 py-1 bg-slate-900/70 text-amber-300 text-xs font-bold rounded-full border border-amber-400/40">
+                                        Planet Bumi
+                                    </span>
+                                </div>
+
+                                <!-- Satellites floating around -->
+                                <div class="absolute -top-3 -right-2 bg-purple-900/90 p-3 rounded-2xl border border-purple-400 shadow-lg text-2xl text-purple-300 animate-bounce-gentle">
+                                    🛰️
+                                </div>
+                                <div class="absolute -bottom-2 -left-2 bg-indigo-900/90 p-3 rounded-2xl border border-amber-400 shadow-lg text-2xl text-amber-300">
+                                    🌋
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="switchTab('materi')" class="glass-card glass-card-hover rounded-2xl p-6 cursor-pointer border-t-4 border-t-cyan-400">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl mb-4 font-bold">
+                        <i class="fa-solid fa-volcano"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Materi Bencana Alam</h3>
+                    <p class="text-sm text-indigo-200">Pelajari gunung api, gempa bumi, tsunami, banjir, hingga likuefaksi secara lengkap dengan audio penjelasan.</p>
+                </div>
+
+                <div onclick="switchTab('kuis')" class="glass-card glass-card-hover rounded-2xl p-6 cursor-pointer border-t-4 border-t-pink-500">
+                    <div class="w-14 h-14 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-2xl mb-4 font-bold">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Kuis Interaktif</h3>
+                    <p class="text-sm text-indigo-200">Uji pengetahuanmu melalui kuis pilihan ganda interaktif, raih skor tertinggi dan dapatkan lencana kapten!</p>
+                </div>
+
+                <div onclick="switchTab('dragdrop')" class="glass-card glass-card-hover rounded-2xl p-6 cursor-pointer border-t-4 border-t-amber-400">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-4 font-bold">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Permainan Mitigasi</h3>
+                    <p class="text-sm text-indigo-200">Game geser dan tempatkan (Drag and Drop) langkah keselamatan bencana sesuai jenis bencananya.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-tujuan" class="tab-content hidden space-y-8">
+            <div class="text-center space-y-3">
+                <span class="px-4 py-1.5 rounded-full bg-purple-900/60 border border-purple-400/40 text-purple-300 text-sm font-semibold inline-block">
+                    Capaian Pembelajaran IPS Fase D
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Tujuan Pembelajaran</h2>
+                <p class="text-indigo-200 max-w-2xl mx-auto text-sm sm:text-base">
+                    Berikut adalah target kompetensi yang akan kamu kuasai setelah menyelesaikan seluruh rangkaian petualangan belajar ini:
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-l-amber-400 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center font-display font-bold text-xl flex-shrink-0">
+                        1
+                    </div>
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-white mb-1">Mengidentifikasi Potensi Bencana</h3>
+                        <p class="text-sm text-indigo-200">Siswa mampu menjelaskan letak geografis dan geologis Indonesia yang memicu timbulnya bencana alam seperti gempa, gunung meletus, dan tsunami.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-l-purple-400 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-purple-400/20 text-purple-400 flex items-center justify-center font-display font-bold text-xl flex-shrink-0">
+                        2
+                    </div>
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-white mb-1">Menganalisis Penyebab & Dampak</h3>
+                        <p class="text-sm text-indigo-200">Siswa dapat membedakan bencana alam geologis dan hidrometeorologi serta dampaknya terhadap lingkungan dan kehidupan sosial.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-l-cyan-400 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center font-display font-bold text-xl flex-shrink-0">
+                        3
+                    </div>
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-white mb-1">Simulasi Mitigasi Bencana</h3>
+                        <p class="text-sm text-indigo-200">Siswa memahami tindakan keselamatan (pra-bencana, saat bencana, dan pasca-bencana) untuk mengurangi risiko jatuhnya korban.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-l-emerald-400 flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-display font-bold text-xl flex-shrink-0">
+                        4
+                    </div>
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-white mb-1">Keterampilan Bernalar Kritis</h3>
+                        <p class="text-sm text-indigo-200">Siswa mampu mengambil keputusan cepat dan tepat melalui simulasi kuis serta permainan kelompok interaktif.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Petunjuk Belajar -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-indigo-950/80 via-purple-950/80 to-slate-900/80 border border-purple-500/30">
+                <h3 class="font-display text-xl font-bold text-amber-300 mb-4 flex items-center space-x-2">
+                    <i class="fa-solid fa-compass text-amber-400"></i>
+                    <span>Petunjuk Petualangan Kapten Belajar</span>
+                </h3>
+                <ul class="grid sm:grid-cols-3 gap-4 text-sm text-indigo-100">
+                    <li class="flex items-start space-x-2 bg-indigo-900/40 p-3 rounded-xl border border-indigo-700/30">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                        <span><strong>Langkah 1:</strong> Baca materi bencana alam dan tekan tombol suara untuk mendengarkan audio penjelasan.</span>
+                    </li>
+                    <li class="flex items-start space-x-2 bg-indigo-900/40 p-3 rounded-xl border border-indigo-700/30">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                        <span><strong>Langkah 2:</strong> Mainkan game Drag & Drop untuk menguji pemahaman mitigasi kamu.</span>
+                    </li>
+                    <li class="flex items-start space-x-2 bg-indigo-900/40 p-3 rounded-xl border border-indigo-700/30">
+                        <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                        <span><strong>Langkah 3:</strong> Kerjakan Kuis Interaktif untuk mengumpulkan skor sempurna!</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="tab-materi" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white">Materi Bencana Alam di Indonesia</h2>
+                    <p class="text-indigo-200 text-sm">Pilih kartu bencana untuk mempelajari detail penyebab, dampak, dan mitigasinya!</p>
+                </div>
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterMateri('semua')" id="btn-materi-semua" class="materi-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-display font-semibold bg-amber-400 text-slate-950">Semua</button>
+                    <button onclick="filterMateri('geologis')" id="btn-materi-geologis" class="materi-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-display font-semibold bg-indigo-900/70 text-indigo-300 hover:text-white">Bencana Geologis</button>
+                    <button onclick="filterMateri('hidro')" id="btn-materi-hidro" class="materi-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-display font-semibold bg-indigo-900/70 text-indigo-300 hover:text-white">Hidrometeorologi</button>
+                </div>
+            </div>
+
+            <!-- Material Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1: Gunung Api -->
+                <div class="materi-card geologis glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-red-900/40 to-amber-900/20 border-b border-red-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center text-3xl">
+                            🌋
+                        </div>
+                        <button onclick="speakText('Materi Gunung Api: Erupsi gunung api terjadi akibat keluarnya magma dari dalam bumi. Mitigasi: Hindari kawasan rawan bencana dan gunakan masker saat terjadi abu vulkanik.')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Erupsi Gunung Api</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-900/60 text-red-300 border border-red-500/30">Geologis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Gunung meletus terjadi akibat endapan magma di dalam perut bumi yang didorong keluar oleh gas bertekanan tinggi. Indonesia berada pada jalur <i>Ring of Fire</i> (Cincin Api Pasifik).
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️ Mitigasi Keselamatan:</strong>
+                                • Siapkan masker & kacamata pelindung.<br>
+                                • Ikuti jalur evakuasi menuju pos pengungsian.
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-gunung')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Gempa Bumi -->
+                <div class="materi-card geologis glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-amber-900/40 to-purple-900/20 border-b border-amber-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl">
+                            🫨
+                        </div>
+                        <button onclick="speakText('Materi Gempa Bumi: Gempa adalah getaran permukaan bumi akibat pelepasan energi dari dalam bumi. Mitigasi: Lindungi kepala di bawah meja yang kokoh saat gempa terjadi.')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Gempa Bumi</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-900/60 text-amber-300 border border-amber-500/30">Geologis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Getaran hebat di permukaan bumi akibat patahan pergeseran lempeng tektonik atau aktivitas vulkanik. Berlangsung singkat namun berpotensi merusak bangunan.
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️ Mitigasi Keselamatan:</strong>
+                                • Merunduk, Lindungi Kepala, dan Berpegangan (Drop, Cover, Hold On).<br>
+                                • Jauhi kaca, cermin, dan benda tinggi.
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-gempa')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Tsunami -->
+                <div class="materi-card geologis glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-blue-900/40 to-cyan-900/20 border-b border-cyan-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-3xl">
+                            🌊
+                        </div>
+                        <button onclick="speakText('Materi Tsunami: Tsunami adalah gelombang laut raksasa akibat gempa di dasar laut. Jika air laut mendadak surut setelah gempa, segera lari ke tempat yang tinggi!')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Tsunami</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan-900/60 text-cyan-300 border border-cyan-500/30">Geologis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Gelombang air laut dahsyat berpindah tempat secara cepat akibat pergeseran mendadak dasar laut (gempa tektonik dasar laut atau longsoran bawah laut).
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️ Mitigasi Keselamatan:</strong>
+                                • Amati tanda alam: Gempa kuat & laut surut drastis.<br>
+                                • Segera lari ke tempat tinggi (minimal 20m di atas permukaan laut).
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-tsunami')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Banjir -->
+                <div class="materi-card hidro glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-indigo-900/40 to-blue-900/20 border-b border-indigo-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-3xl">
+                            🌧️️
+                        </div>
+                        <button onclick="speakText('Materi Banjir: Luapan air yang merendam daratan akibat curah hujan tinggi dan penyumbatan aliran sungai. Jauhi kabel listrik saat terjadi banjir.')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Banjir</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-900/60 text-indigo-300 border border-indigo-500/30">Hidrometeorologi</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Peristiwa terendamnya daratan oleh genangan air berlebih akibat intensitas hujan tinggi, alih fungsi lahan, serta tumpukan sampah di saluran air.
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️ Mitigasi Keselamatan:</strong>
+                                • Matikan aliran listrik utama di rumah.<br>
+                                • Amankan dokumen penting ke tempat tinggi.
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-banjir')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Tanah Longsor -->
+                <div class="materi-card hidro glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-amber-950/40 to-yellow-900/20 border-b border-amber-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-700/20 text-amber-500 flex items-center justify-center text-3xl">
+                            ⛰️
+                        </div>
+                        <button onclick="speakText('Materi Tanah Longsor: Pergerakan massa tanah atau batuan yang meluncur turun dari lereng curam akibat hujan lebat atau gundulnya hutan.')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Tanah Longsor</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-900/60 text-amber-300 border border-amber-500/30">Hidrometeorologi</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Perpindahan material pembentuk lereng berupa batuan atau tanah yang bergerak ke bawah akibat hilangnya daya ikat tanah karena resapan air berlebih.
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️ Mitigasi Keselamatan:</strong>
+                                • Tanam pepohonan di lereng curam (penghijauan).<br>
+                                • Evakuasi jika muncul retakan tanah di perbukitan.
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-longsor')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: Likuefaksi -->
+                <div class="materi-card geologis glass-card glass-card-hover rounded-2xl overflow-hidden border border-indigo-500/30 flex flex-col">
+                    <div class="p-6 bg-gradient-to-br from-purple-900/40 to-pink-900/20 border-b border-purple-500/20 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-3xl">
+                            🕳️
+                        </div>
+                        <button onclick="speakText('Materi Likuefaksi: Lenyapnya kekuatan tanah pasir akibat getaran gempa bumi sehingga tanah berubah menjadi bersifat cair.')" class="p-2.5 rounded-full bg-slate-900/80 hover:bg-amber-400 hover:text-slate-950 text-amber-400 transition" title="Dengarkan Suara">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-display text-xl font-bold text-white">Likuefaksi</h3>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-900/60 text-purple-300 border border-purple-500/30">Geologis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-indigo-200 leading-relaxed mb-3">
+                                Fenomena pencairan tanah di mana tanah padat kehilangan kekuatannya akibat guncangan gempa kuat dan berubah perilaku seperti cairan lumpur.
+                            </p>
+                            <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/40 text-xs text-indigo-100">
+                                <strong class="text-amber-300 block mb-1">🛡️️ Mitigasi Keselamatan:</strong>
+                                • Lakukan kajian struktur tanah sebelum membangun rumah.<br>
+                                • Menjauh dari lokasi tanah retak pasca gempa.
+                            </div>
+                        </div>
+                        <button onclick="openModal('modal-likuefaksi')" class="w-full py-2.5 rounded-xl bg-indigo-900/70 hover:bg-indigo-800 text-amber-300 text-sm font-display font-semibold transition border border-amber-400/30">
+                            Baca Selengkapnya
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-kuis" class="tab-content hidden space-y-8">
+            <div class="text-center space-y-2">
+                <span class="px-4 py-1.5 rounded-full bg-pink-900/60 border border-pink-400/40 text-pink-300 text-sm font-semibold inline-block">
+                    Uji Pemahaman Siswa
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Kuis Interaktif Kapten Bencana</h2>
+                <p class="text-indigo-200 text-sm sm:text-base">Jawab 5 pertanyaan bergambar dengan tepat untuk meraih nilai 100!</p>
+            </div>
+
+            <!-- Quiz Main Box -->
+            <div id="quiz-container" class="max-w-3xl mx-auto glass-card rounded-3xl p-6 sm:p-10 border border-indigo-500/40 relative shadow-2xl">
+                <!-- Quiz Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center text-sm font-semibold mb-2">
+                        <span id="quiz-progress-text" class="text-amber-300">Pertanyaan 1 dari 5</span>
+                        <span id="quiz-score-live" class="text-emerald-400"><i class="fa-solid fa-star mr-1"></i> Skor: 0</span>
+                    </div>
+                    <div class="w-full h-3 bg-indigo-950 rounded-full overflow-hidden border border-indigo-800">
+                        <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-amber-400 to-pink-500 transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Card Container -->
+                <div id="quiz-body" class="space-y-6">
+                    <!-- Dynamic Question Header -->
+                    <h3 id="quiz-question" class="text-lg sm:text-xl font-display font-bold text-white leading-snug">
+                        Loading Pertanyaan...
+                    </h3>
+
+                    <!-- Options Grid -->
+                    <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                        <!-- Options injected dynamically via JS -->
+                    </div>
+
+                    <!-- Answer Explanation Box -->
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-sm font-medium transition"></div>
+                </div>
+
+                <!-- Next Button -->
+                <div class="mt-8 flex justify-end">
+                    <button id="btn-next-quiz" onclick="nextQuestion()" class="hidden px-6 py-3 rounded-2xl font-display font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition shadow-lg flex items-center space-x-2">
+                        <span>Pertanyaan Selanjutnya</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Box (Hidden by default) -->
+            <div id="quiz-result" class="hidden max-w-2xl mx-auto glass-card rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-amber-400/50">
+                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-5xl text-slate-950 shadow-xl shadow-amber-500/30">
+                    🏆
+                </div>
+                <div>
+                    <h3 class="text-3xl font-display font-extrabold text-white mb-2">Misi Selesai!</h3>
+                    <p class="text-indigo-200 text-sm">Selamat Kapten, kamu telah menyelesaikan Kuis Potensi Bencana Alam!</p>
+                </div>
+                
+                <div class="p-6 rounded-2xl bg-indigo-950/80 border border-indigo-800/60 inline-block min-w-[240px]">
+                    <span class="text-xs text-indigo-300 font-semibold uppercase tracking-wider block mb-1">Skor Akhir Kamu</span>
+                    <span id="final-score" class="text-5xl font-display font-extrabold text-amber-400">0</span>
+                    <span class="text-indigo-300 text-xl font-bold"> / 100</span>
+                </div>
+
+                <p id="result-message" class="text-indigo-200 text-base italic font-medium"></p>
+
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <button onclick="restartQuiz()" class="px-6 py-3 rounded-xl font-display font-bold bg-indigo-800 hover:bg-indigo-700 text-white transition flex items-center space-x-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Coba Lagi</span>
+                    </button>
+                    <button onclick="switchTab('dragdrop')" class="px-6 py-3 rounded-xl font-display font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 transition flex items-center space-x-2">
+                        <span>Lanjut ke Game Drag & Drop</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-dragdrop" class="tab-content hidden space-y-8">
+            <div class="text-center space-y-2">
+                <span class="px-4 py-1.5 rounded-full bg-emerald-900/60 border border-emerald-400/40 text-emerald-300 text-sm font-semibold inline-block">
+                    Permainan Mitigasi Bencana
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Cocokkan Tindakan Mitigasi!</h2>
+                <p class="text-indigo-200 text-sm sm:text-base max-w-xl mx-auto">
+                    Tarik (Drag) kartu tindakan keselamatan di sebelah kiri dan tempatkan (Drop) pada kotak bencana yang sesuai di sebelah kanan! <i>(Jika di ponsel, cukup ketuk kartu lalu ketuk kotaknya)</i>.
+                </p>
+            </div>
+
+            <!-- Drag and Drop Workspace -->
+            <div class="grid md:grid-cols-12 gap-8">
+                <!-- Source Items Column -->
+                <div class="md:col-span-5 glass-card rounded-2xl p-6 border border-indigo-500/30">
+                    <h3 class="font-display font-bold text-lg text-amber-300 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-hand-holding-hand"></i>
+                        <span>Pilihan Tindakan Safety</span>
+                    </h3>
+                    <div id="drag-items-container" class="space-y-3">
+                        <!-- Items rendered dynamically in JS -->
+                    </div>
+                </div>
+
+                <!-- Target Dropzones Column -->
+                <div class="md:col-span-7 space-y-4">
+                    <h3 class="font-display font-bold text-lg text-cyan-300 mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>Kotak Jenis Bencana Alam</span>
+                    </h3>
+                    <div id="drop-zones-container" class="space-y-4">
+                        <!-- Dropzones rendered dynamically in JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Controls & Status -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 border border-emerald-500/30">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl font-bold">
+                        🧩
+                    </div>
+                    <div>
+                        <span class="text-xs text-indigo-300 block font-semibold">Progres Game Mitigasi</span>
+                        <span id="drag-score-status" class="font-display font-bold text-lg text-emerald-300">Terpasang: 0 / 4</span>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="resetDragGame()" class="px-5 py-2.5 rounded-xl font-display font-semibold bg-indigo-900 hover:bg-indigo-800 text-indigo-200 text-sm border border-indigo-700 transition">
+                        Reset Game
+                    </button>
+                    <button onclick="checkDragGame()" class="px-6 py-2.5 rounded-xl font-display font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm transition shadow-lg shadow-emerald-500/20">
+                        Cek Jawaban!
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-tentang" class="tab-content hidden space-y-8">
+            <div class="max-w-4xl mx-auto glass-card rounded-3xl p-6 sm:p-10 border border-indigo-500/40 relative overflow-hidden">
+                <div class="grid md:grid-cols-12 gap-8 items-center">
+                    <div class="md:col-span-4 text-center space-y-4">
+                        <div class="relative inline-block">
+                            <div class="w-40 h-40 rounded-3xl bg-gradient-to-tr from-amber-400 via-purple-500 to-indigo-600 p-1 mx-auto shadow-2xl">
+                                <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center overflow-hidden">
+                                    <i class="fa-solid fa-user-astronaut text-7xl text-amber-300"></i>
+                                </div>
+                            </div>
+                            <span class="absolute -bottom-2 -right-2 px-3 py-1 rounded-full bg-emerald-500 text-slate-950 text-xs font-extrabold shadow-md">
+                                Guru IPS
+                            </span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-display font-extrabold text-white">KAMALIYAH</h3>
+                            <p class="text-amber-400 text-sm font-medium">Pengembang Media Pembelajaran</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-8 space-y-4 text-indigo-100">
+                        <h3 class="text-2xl font-display font-bold text-amber-300">Tentang Aplikasi Pembelajaran</h3>
+                        <p class="text-sm sm:text-base leading-relaxed text-indigo-200">
+                            Aplikasi web interaktif ini dirancang khusus sebagai media pembelajaran inovatif mata pelajaran <strong>Ilmu Pengetahuan Sosial (IPS) Kelas 7 SMP / Fase D</strong> pada materi <i>Potensi Bencana Alam di Indonesia dan Mitigasinya</i>.
+                        </p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 text-xs pt-2">
+                            <div class="bg-indigo-950/60 p-4 rounded-2xl border border-indigo-800/40 space-y-1">
+                                <span class="text-amber-300 font-bold block">📚 Sasaran Pengguna:</span>
+                                <span>Siswa SMP/MTs Kelas 7 (Fase D)</span>
+                            </div>
+                            <div class="bg-indigo-950/60 p-4 rounded-2xl border border-indigo-800/40 space-y-1">
+                                <span class="text-amber-300 font-bold block">🌌 Tema Desain:</span>
+                                <span>Antariksa & Planet Edukatif Interaktif</span>
+                            </div>
+                            <div class="bg-indigo-950/60 p-4 rounded-2xl border border-indigo-800/40 space-y-1">
+                                <span class="text-amber-300 font-bold block">🎯 Metode Pembelajaran:</span>
+                                <span>Interactive Multimedia & Gamification</span>
+                            </div>
+                            <div class="bg-indigo-950/60 p-4 rounded-2xl border border-indigo-800/40 space-y-1">
+                                <span class="text-amber-300 font-bold block">🛠️ Teknis Web:</span>
+                                <span>HTML5, Tailwind CSS, & Audio Synthesis</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 text-xs text-indigo-300 italic border-t border-indigo-800/50">
+                            "Menumbuhkan generasi cerdas, tanggap, dan siap siaga bencana demi keselamatan bangsa."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Gunung Api -->
+    <div id="modal-gunung" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-red-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-red-400">🌋 Erupsi Gunung Api</h3>
+                <button onclick="closeModal('modal-gunung')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Gunung api terbentuk karena penyusupan magma dari mantel bumi menuju permukaan. Di Indonesia terdapat lebih dari 120 gunung api aktif karena terletak di jalur Cincin Api Pasifik (Ring of Fire).
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Pra-Bencana:</strong> Kenali tanda gunung meletus (suhu udara meningkat, mata air mengering, timbul guncangan gempa vulkanik).</p>
+                <p>2. <strong>Saat Bencana:</strong> Gunakan masker dan kacamata penutup, jauhi kawasan lembah yang berisiko diterjang lahar dingin.</p>
+                <p>3. <strong>Pasca-Bencana:</strong> Bersihkan atap rumah dari tumpukan abu vulkanik agar tidak roboh.</p>
+            </div>
+            <button onclick="closeModal('modal-gunung')" class="w-full py-2.5 rounded-xl bg-red-500 hover:bg-red-400 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <!-- Modal Gempa Bumi -->
+    <div id="modal-gempa" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-amber-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-amber-400">🫨 Gempa Bumi</h3>
+                <button onclick="closeModal('modal-gempa')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Gempa bumi tektonik terjadi karena tumbukan lempeng-lempeng litosfer bumi. Pergerakan ini melepaskan gelombang seismik yang mengakibatkan permukaan tanah bergetar hebat.
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Pra-Bencana:</strong> Pastikan perabotan rumah tangga seperti lemari ditambatkan ke dinding dengan kuat.</p>
+                <p>2. <strong>Saat Bencana:</strong> Lindungi kepala dengan helm/bantal, merunduk di bawah meja kokoh, jauhi gedung tinggi jika berada di luar ruangan.</p>
+                <p>3. <strong>Pasca-Bencana:</strong> Periksa potensi kebocoran gas atau konsleting listrik sebelum kembali ke rumah.</p>
+            </div>
+            <button onclick="closeModal('modal-gempa')" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <!-- Modal Tsunami -->
+    <div id="modal-tsunami" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-cyan-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-cyan-400">🌊 Tsunami</h3>
+                <button onclick="closeModal('modal-tsunami')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Kata Tsunami berasal dari bahasa Jepang ("Tsu" = pelabuhan, "Nami" = gelombang). Pemicu utama tsunami adalah gempa tektonik dangkal bernilai magnitudo > 7.0 SR di dasar laut.
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Tanda Alam:</strong> Gempa kuat dirasakan di pantai diikuti surutnya air laut secara sangat cepat.</p>
+                <p>2. <strong>Tindakan Cepat:</strong> Jangan tunggu alarm sirine! Segera berlari ke dataran yang lebih tinggi atau gedung bertingkat kuat (evakuasi vertikal).</p>
+            </div>
+            <button onclick="closeModal('modal-tsunami')" class="w-full py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <!-- Modal Banjir -->
+    <div id="modal-banjir" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-indigo-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-indigo-400">🌧️ Banjir</h3>
+                <button onclick="closeModal('modal-banjir')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Banjir sering kali dipicu oleh faktor meteorologis (hujan ekstrim) yang diperparah oleh ulah manusia seperti penebangan hutan secara liar dan pembuangan sampah berlebih di sungai.
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Pra-Bencana:</strong> Bersihkan got saluran air lingkungan dan jangan membuang sampah sembarangan.</p>
+                <p>2. <strong>Saat Bencana:</strong> Matikan arus listrik rumah dari sekring utama dan simpan surat penting di dalam plastik kedap air.</p>
+            </div>
+            <button onclick="closeModal('modal-banjir')" class="w-full py-2.5 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <!-- Modal Longsor -->
+    <div id="modal-longsor" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-amber-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-amber-400">⛰️ Tanah Longsor</h3>
+                <button onclick="closeModal('modal-longsor')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Longsor terjadi ketika beban air hujan membuat struktur tanah di lereng menjadi jenuh dan berat, sehingga tidak mampu lagi ditahan oleh ikatan akar tanaman.
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Pencegahan:</strong> Tanam pohon berakar dalam (seperti vetiver/bambu) di perbukitan dan hindari membuat pemukiman di bawah tebing curam.</p>
+            </div>
+            <button onclick="closeModal('modal-longsor')" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <!-- Modal Likuefaksi -->
+    <div id="modal-likuefaksi" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 border border-purple-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
+                <h3 class="font-display font-extrabold text-2xl text-purple-400">🕳️ Likuefaksi Tanah</h3>
+                <button onclick="closeModal('modal-likuefaksi')" class="text-indigo-300 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-indigo-200 leading-relaxed">
+                Likuefaksi adalah fenomena di mana tanah yang mengandung air diguncang oleh gempa kuat, menyebabkan tekanan air pori naik dan tanah kehilangan daya dukungnya sehingga berubah menjadi bubur pasir mendidih.
+            </p>
+            <div class="space-y-2 text-xs sm:text-sm text-indigo-100 bg-slate-900/80 p-4 rounded-2xl">
+                <h4 class="font-bold text-amber-300">Langkah Mitigasi Lengkap:</h4>
+                <p>1. <strong>Zonasi Risiko:</strong> Hindari pembangunan pemukiman di kawasan rawan likuefaksi tinggi.</p>
+                <p>2. <strong>Teknik Bangunan:</strong> Gunakan fondasi cakar ayam atau perbaikan pemadatan tanah secara ketat.</p>
+            </div>
+            <button onclick="closeModal('modal-likuefaksi')" class="w-full py-2.5 rounded-xl bg-purple-400 hover:bg-purple-300 text-slate-950 font-display font-bold">Tutup Penjelasan</button>
+        </div>
+    </div>
+
+    <footer class="glass-card mt-12 border-t border-indigo-800/40 py-6 text-center text-xs text-indigo-300">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-display text-sm font-semibold text-amber-300">
+                🚀 Media Pembelajaran Interaktif IPS Kelas 7 - Potensi Bencana Alam
+            </p>
+            <p>© 2026 Pengembang: <strong>Kamaliyah</strong> • Didukung oleh Web Audio & Tailwind CSS</p>
+        </div>
+    </footer>
+
+    <script>
+        /* Web Audio API Sound Effects Generator */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15); // E5
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(164.81, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            }
+        }
+
+        /* SPA Navigation Switcher */
+        function switchTab(tabId) {
+            playSound('click');
+            // Hide all tab content sections
+            const sections = document.querySelectorAll('.tab-content');
+            sections.forEach(sec => sec.classList.add('hidden'));
+
+            // Show target section
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Update active nav button styles
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.classList.remove('text-amber-400', 'bg-indigo-900/60', 'shadow-inner');
+                btn.classList.add('text-indigo-300');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('text-amber-400', 'bg-indigo-900/60', 'shadow-inner');
+                activeBtn.classList.remove('text-indigo-300');
+            }
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            playSound('click');
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function speakText(text) {
+            playSound('click');
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop any active speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Fitur suara tidak didukung oleh browser ini.');
+            }
+        }
+
+        /* Material Modal Controllers */
+        function openModal(modalId) {
+            playSound('click');
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            playSound('click');
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        /* Material Category Filter */
+        function filterMateri(kategori) {
+            playSound('click');
+            const cards = document.querySelectorAll('.materi-card');
+            const filterBtns = document.querySelectorAll('.materi-filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-amber-400', 'text-slate-950');
+                btn.classList.add('bg-indigo-900/70', 'text-indigo-300');
+            });
+
+            const activeBtn = document.getElementById('btn-materi-' + kategori);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-amber-400', 'text-slate-950');
+                activeBtn.classList.remove('bg-indigo-900/70', 'text-indigo-300');
+            }
+
+            cards.forEach(card => {
+                if (kategori === 'semua') {
+                    card.style.display = 'flex';
+                } else if (card.classList.contains(kategori)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        const quizData = [
+            {
+                question: "1. Mengapa wilayah Indonesia sangat rentan mengalami erupsi gunung api dan gempa tektonik?",
+                options: [
+                    "A. Karena Indonesia terletak di iklim tropis",
+                    "B. Karena dilalui pertemuan 3 lempeng tektonik utama dunia",
+                    "C. Karena memiliki garis pantai yang sangat panjang",
+                    "D. Karena dikelilingi oleh samudra yang dangkal"
+                ],
+                correct: 1,
+                explanation: "Tepat sekali! Indonesia berada di titik pertemuan lempeng Indo-Australia, Eurasia, dan Pasifik yang membuatnya kaya gunung api dan rentan gempa."
+            },
+            {
+                question: "2. Ketika gempa bumi berkekuatan besar terjadi saat kamu berada di dalam kelas, tindakan pertama yang paling tepat dilakukan adalah...",
+                options: [
+                    "A. Berlari secepatnya menuju lift sekolah",
+                    "B. Berdiri tepat di depan kaca jendela kelas",
+                    "C. Merunduk, berlindung di bawah meja yang kokoh, dan memegang kaki meja",
+                    "D. Berteriak meminta tolong tanpa bergerak"
+                ],
+                correct: 2,
+                explanation: "Benar! Prinsip dasar keselamatan gempa adalah Merunduk, Lindungi Kepala di bawah meja, dan Berpegangan (Drop, Cover, Hold On)."
+            },
+            {
+                question: "3. Tsunami sering diawali oleh fenomena alam unik di pantai, yaitu...",
+                options: [
+                    "A. Air laut yang mendadak surut secara Drastis setelah gempa kuat",
+                    "B. Udara mendadak menjadi sangat panas",
+                    "C. Munculnya petir menyambar di laut",
+                    "D. Hujan es melanda daerah pesisir"
+                ],
+                correct: 0,
+                explanation: "Hebat! Jika air laut mendadak surut secara drastis pasca gempa dasar laut, segera lari menuju daerah perbukitan yang tinggi!"
+            },
+            {
+                question: "4. Fenomena lenyapnya kekuatan tanah pasir hingga berubah menjadi bubur cair akibat guncangan gempa bumi disebut...",
+                options: [
+                    "A. Abrasi Pantai",
+                    "B. Likuefaksi",
+                    "C. Erosi",
+                    "D. Intrusii Air Laut"
+                ],
+                correct: 1,
+                explanation: "Pintar! Likuefaksi adalah proses hilangnya ikatan tanah sehingga tanah dapat menelan atau menggeser bangunan di atasnya."
+            },
+            {
+                question: "5. Manakah di bawah ini yang merupakan tindakan mitigasi pencegahan tanah longsor di perbukitan?",
+                options: [
+                    "A. Menerbang semua pohon di lereng",
+                    "B. Melakukan penanaman pepohonan berakar kuat (reboisasi)",
+                    "C. Menggali lereng tebing secara liar",
+                    "D. Membangun rumah tepat di bawah lereng curam"
+                ],
+                correct: 1,
+                explanation: "Luar biasa! Akar pepohonan berfungsi mengikat tanah perbukitan sehingga tidak mudah tergerus oleh air hujan."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let selectedOption = null;
+
+        function loadQuizQuestion() {
+            selectedOption = null;
+            const q = quizData[currentQuestionIndex];
+            
+            document.getElementById('quiz-progress-text').innerText = `Pertanyaan ${currentQuestionIndex + 1} dari ${quizData.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`;
+            document.getElementById('quiz-score-live').innerHTML = `<i class="fa-solid fa-star mr-1"></i> Skor: ${quizScore}`;
+            
+            document.getElementById('quiz-question').innerText = q.question;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((optText, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-2xl bg-indigo-950/70 border border-indigo-700/50 hover:bg-indigo-800/50 hover:border-amber-400 text-indigo-100 font-medium text-sm transition flex items-center justify-between group';
+                btn.onclick = () => selectQuizOption(index, btn);
+                btn.innerHTML = `
+                    <span>${optText}</span>
+                    <i class="fa-regular fa-circle text-indigo-400 group-hover:text-amber-400"></i>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+        }
+
+        function selectQuizOption(index, btnElement) {
+            playSound('click');
+            if (selectedOption !== null) return; // Prevent multiple clicks
+
+            selectedOption = index;
+            const q = quizData[currentQuestionIndex];
+            const optionsBtns = document.getElementById('quiz-options').children;
+
+            // Disable all option buttons
+            for (let btn of optionsBtns) {
+                btn.disabled = true;
+                btn.classList.add('opacity-70');
+            }
+
+            const feedbackBox = document.getElementById('quiz-feedback');
+            feedbackBox.classList.remove('hidden');
+
+            if (index === q.correct) {
+                playSound('correct');
+                quizScore += 20;
+                btnElement.classList.remove('bg-indigo-950/70', 'opacity-70');
+                btnElement.classList.add('bg-emerald-900/80', 'border-emerald-400', 'text-white', 'opacity-100');
+                btnElement.querySelector('i').className = 'fa-solid fa-circle-check text-emerald-400 text-lg';
+
+                feedbackBox.className = 'p-4 rounded-2xl text-sm font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 block';
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i> ${q.explanation}`;
+            } else {
+                playSound('wrong');
+                btnElement.classList.remove('bg-indigo-950/70', 'opacity-70');
+                btnElement.classList.add('bg-red-900/80', 'border-red-400', 'text-white', 'opacity-100');
+                btnElement.querySelector('i').className = 'fa-solid fa-circle-xmark text-red-400 text-lg';
+
+                // Highlight correct answer
+                const correctBtn = optionsBtns[q.correct];
+                correctBtn.classList.remove('bg-indigo-950/70', 'opacity-70');
+                correctBtn.classList.add('bg-emerald-900/60', 'border-emerald-400', 'text-white', 'opacity-100');
+
+                feedbackBox.className = 'p-4 rounded-2xl text-sm font-medium bg-red-950/80 border border-red-500/50 text-red-200 block';
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-400 mr-2"></i> Kurang tepat! ${q.explanation}`;
+            }
+
+            document.getElementById('quiz-score-live').innerHTML = `<i class="fa-solid fa-star mr-1"></i> Skor: ${quizScore}`;
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultBox = document.getElementById('quiz-result');
+            resultBox.classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = quizScore;
+
+            const msg = document.getElementById('result-message');
+            if (quizScore === 100) {
+                msg.innerText = "🌟 Luar biasa! Kamu adalah Kapten Tanggap Bencana Sejati dengan nilai sempurna!";
+            } else if (quizScore >= 60) {
+                msg.innerText = "👍 Bagus sekali! Kamu sudah memahami konsep dasar potensi bencana dan mitigasi.";
+            } else {
+                msg.innerText = "💪 Jangan berkecil hati! Yuk baca lagi materi pembelajaran dan coba kuis sekali lagi!";
+            }
+        }
+
+        function restartQuiz() {
+            playSound('click');
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        const dragItemsData = [
+            { id: 'drag-1', text: '🥽 Gunakan Masker & Kacamata Pelindung Abu', targetId: 'drop-volcano' },
+            { id: 'drag-2', text: '🛋️ Merunduk & Berlindung di Bawah Meja Kokoh', targetId: 'drop-earthquake' },
+            { id: 'drag-3', text: '🏃 Segera Lari ke Tempat Tinggi Pasca Laut Surut', targetId: 'drop-tsunami' },
+            { id: 'drag-4', text: '🌱 Lakukan Reboisasi Penanaman Pohon di Lereng', targetId: 'drop-landslide' }
+        ];
+
+        const dropZonesData = [
+            { id: 'drop-volcano', title: '🌋 Erupsi Gunung Api', matchId: 'drag-1' },
+            { id: 'drop-earthquake', title: '🫨 Gempa Bumi Tektonik', matchId: 'drag-2' },
+            { id: 'drop-tsunami', title: '🌊 Tsunami Pantai', matchId: 'drag-3' },
+            { id: 'drop-landslide', title: '⛰️ Tanah Longsor Perbukitan', matchId: 'drag-4' }
+        ];
+
+        let selectedDragItem = null; // Fallback touch selection
+        let userDropMatches = {};
+
+        function initDragGame() {
+            userDropMatches = {};
+            selectedDragItem = null;
+
+            const dragContainer = document.getElementById('drag-items-container');
+            const dropContainer = document.getElementById('drop-zones-container');
+
+            dragContainer.innerHTML = '';
+            dropContainer.innerHTML = '';
+
+            // Render Draggable Items (Shuffled)
+            const shuffledItems = [...dragItemsData].sort(() => Math.random() - 0.5);
+            shuffledItems.forEach(item => {
+                const el = document.createElement('div');
+                el.id = item.id;
+                el.draggable = true;
+                el.className = 'drag-item p-3.5 rounded-xl bg-indigo-900/80 border border-indigo-600 text-indigo-100 text-sm font-semibold cursor-grab active:cursor-grabbing hover:bg-amber-500 hover:text-slate-950 transition flex items-center justify-between select-none shadow-md';
+                el.innerText = item.text;
+
+                // Desktop Drag Events
+                el.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', item.id);
+                    el.classList.add('dragging');
+                });
+                el.addEventListener('dragend', () => {
+                    el.classList.remove('dragging');
+                });
+
+                // Touch / Click Fallback Event
+                el.addEventListener('click', () => {
+                    playSound('click');
+                    document.querySelectorAll('.drag-item').forEach(i => i.classList.remove('border-amber-400', 'bg-amber-500', 'text-slate-950'));
+                    if (selectedDragItem === item.id) {
+                        selectedDragItem = null;
+                    } else {
+                        selectedDragItem = item.id;
+                        el.classList.add('border-amber-400', 'bg-amber-500', 'text-slate-950');
+                    }
+                });
+
+                dragContainer.appendChild(el);
+            });
+
+            // Render Target Dropzones
+            dropZonesData.forEach(zone => {
+                const zEl = document.createElement('div');
+                zEl.id = zone.id;
+                zEl.className = 'drop-target p-4 rounded-2xl bg-indigo-950/60 border-2 border-dashed border-indigo-700/60 transition min-h-[90px] flex flex-col justify-center';
+                zEl.innerHTML = `
+                    <div class="font-display font-bold text-sm text-indigo-300 mb-1">${zone.title}</div>
+                    <div class="drop-placeholder text-xs text-indigo-400 italic">Geser atau ketuk opsi keselamatan ke sini...</div>
+                `;
+
+                // Dragover / Drop Events
+                zEl.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zEl.classList.add('hovered');
+                });
+                zEl.addEventListener('dragleave', () => {
+                    zEl.classList.remove('hovered');
+                });
+                zEl.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zEl.classList.remove('hovered');
+                    const itemId = e.dataTransfer.getData('text/plain');
+                    handlePlaceItem(itemId, zone.id);
+                });
+
+                // Click event fallback for touchscreens
+                zEl.addEventListener('click', () => {
+                    if (selectedDragItem) {
+                        handlePlaceItem(selectedDragItem, zone.id);
+                        selectedDragItem = null;
+                    }
+                });
+
+                dropContainer.appendChild(zEl);
+            });
+
+            updateDragStatus();
+        }
+
+        function handlePlaceItem(itemId, zoneId) {
+            playSound('click');
+            const itemObj = dragItemsData.find(i => i.id === itemId);
+            const itemEl = document.getElementById(itemId);
+            const zoneEl = document.getElementById(zoneId);
+
+            if (!itemObj || !zoneEl || !itemEl) return;
+
+            // Save match
+            userDropMatches[zoneId] = itemId;
+
+            // Move visual element inside dropzone
+            const placeholder = zoneEl.querySelector('.drop-placeholder');
+            if (placeholder) placeholder.style.display = 'none';
+
+            // Remove if already placed elsewhere inside dropzone
+            const existingPlaced = zoneEl.querySelector('.placed-badge');
+            if (existingPlaced) existingPlaced.remove();
+
+            const badge = document.createElement('div');
+            badge.className = 'placed-badge mt-2 p-2.5 rounded-xl bg-amber-500/20 border border-amber-400 text-amber-300 text-xs font-semibold flex justify-between items-center';
+            badge.innerHTML = `
+                <span>${itemObj.text}</span>
+                <i class="fa-solid fa-circle-check text-amber-400"></i>
+            `;
+            zoneEl.appendChild(badge);
+
+            itemEl.style.display = 'none';
+            updateDragStatus();
+        }
+
+        function updateDragStatus() {
+            const count = Object.keys(userDropMatches).length;
+            document.getElementById('drag-score-status').innerText = `Terpasang: ${count} / ${dropZonesData.length}`;
+        }
+
+        function checkDragGame() {
+            let correctCount = 0;
+            dropZonesData.forEach(zone => {
+                const placedItemId = userDropMatches[zone.id];
+                const zoneEl = document.getElementById(zone.id);
+                if (placedItemId === zone.matchId) {
+                    correctCount++;
+                    if (zoneEl) {
+                        zoneEl.classList.remove('border-dashed', 'border-indigo-700/60');
+                        zoneEl.classList.add('border-solid', 'border-emerald-400', 'bg-emerald-950/40');
+                    }
+                } else if (placedItemId) {
+                    if (zoneEl) {
+                        zoneEl.classList.remove('border-dashed', 'border-indigo-700/60');
+                        zoneEl.classList.add('border-solid', 'border-red-400', 'bg-red-950/40');
+                    }
+                }
+            });
+
+            if (correctCount === dropZonesData.length) {
+                playSound('correct');
+                alert('🎉 Luar Biasa! Semua pasangan mitigasi bencana tepat 100%!');
+            } else {
+                playSound('wrong');
+                alert(`👍 Kamu berhasil mencocokkan ${correctCount} dari ${dropZonesData.length} tindakan keselamatan dengan tepat. Yuk periksa kotak bergaris merah!`);
+            }
+        }
+
+        function resetDragGame() {
+            playSound('click');
+            initDragGame();
+        }
+
+        window.onload = function() {
+            loadQuizQuestion();
+            initDragGame();
+        };
+    </script>
+</body>
+</html>
